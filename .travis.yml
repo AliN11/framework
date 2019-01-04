@@ -81,27 +81,27 @@ matrix:
 
     - os: windows
       language: shell
-      env: PHP_VERSION=7.1.0
+      env: PHP_VERSION=(,7.2)
     - os: windows
       language: shell
       env:
-        - PHP_VERSION=7.1.0
+        - PHP_VERSION=(,7.2)
         - SETUP=lowest
     - os: windows
       language: shell
-      env: PHP_VERSION=7.2.0
+      env: PHP_VERSION=(,7.3)
     - os: windows
       language: shell
       env:
-        - PHP_VERSION=7.2.0
+        - PHP_VERSION=(,7.3)
         - SETUP=lowest
     - os: windows
       language: shell
-      env: PHP_VERSION=7.3.0
+      env: PHP_VERSION=(,7.4)
     - os: windows
       language: shell
       env:
-        - PHP_VERSION=7.3.0
+        - PHP_VERSION=(,7.4)
         - SETUP=lowest
 
 cache:
