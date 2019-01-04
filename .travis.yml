@@ -118,8 +118,8 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then choco install php --version $PHP_VERSION --ia="--with-openssl" -y; fi
-  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then export PATH=/c/tools/$PHP_DIR:$PATH; fi
+  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then choco install php --version $PHP_VERSION --ia="with-openssl" -y; fi
+  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then echo "extension=php_openssl.dll" >> /c/tools/$PHP_DIR/php.ini; fi
   - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then choco install mysql redis -y --allow-empty-checksums; fi
   - if [[ $TRAVIS_OS_NAME != 'windows' ]]; then phpenv config-rm xdebug.ini || true; fi
   - if [[ $TRAVIS_OS_NAME != 'windows' ]]; then echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
