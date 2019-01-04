@@ -119,10 +119,10 @@ cache:
 
 before_install:
   - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then choco install php --version $PHP_VERSION -y ; fi
-  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then choco install mysql memcached redis -y --allow-empty-checksums; fi
+  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then choco install mysql redis -y --allow-empty-checksums; fi
   - if [[ $TRAVIS_OS_NAME != 'windows' ]]; phpenv config-rm xdebug.ini || true
   - if [[ $TRAVIS_OS_NAME != 'windows' ]]; echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; echo "extension = memcached.so" >> C:\tools\$PHP_DIR\php.ini
+#  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; echo "extension = memcached.so" >> C:\tools\$PHP_DIR\php.ini
   - printf "\n" | pecl install -f redis
   - travis_retry composer self-update
   - mysql -e 'CREATE DATABASE forge;'
