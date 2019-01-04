@@ -81,27 +81,36 @@ matrix:
 
     - os: windows
       language: shell
-      env: PHP_VERSION=7.1.25
+      env:
+        - PHP_VERSION=7.1.25
+        - PHP_DIR=php71
     - os: windows
       language: shell
       env:
         - PHP_VERSION=7.1.25
+        - PHP_DIR=php71
         - SETUP=lowest
-    - os: windows
-      language: shell
-      env: PHP_VERSION=7.2.13
     - os: windows
       language: shell
       env:
         - PHP_VERSION=7.2.13
-        - SETUP=lowest
+        - PHP_DIR=php72
     - os: windows
       language: shell
-      env: PHP_VERSION=7.3.0
+      env:
+        - PHP_VERSION=7.2.13
+        - PHP_DIR=php72
+        - SETUP=lowest
     - os: windows
       language: shell
       env:
         - PHP_VERSION=7.3.0
+        - PHP_DIR=php73
+    - os: windows
+      language: shell
+      env:
+        - PHP_VERSION=7.3.0
+        - PHP_DIR=php73
         - SETUP=lowest
 
 cache:
@@ -110,8 +119,10 @@ cache:
 
 before_install:
   - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then choco install php --version $PHP_VERSION; fi
-  - phpenv config-rm xdebug.ini || true
-  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then choco install mysql memcached redis; fi
+  - if [[ $TRAVIS_OS_NAME != 'windows' ]]; phpenv config-rm xdebug.ini || true
+  - if [[ $TRAVIS_OS_NAME != 'windows' ]]; echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; echo "extension = memcached.so" >> C:\tools\$PHP_DIR\php.ini
   - printf "\n" | pecl install -f redis
   - travis_retry composer self-update
   - mysql -e 'CREATE DATABASE forge;'
