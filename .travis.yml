@@ -1,38 +1,109 @@
-dist: xenial
-language: php
-
-os:
-  - linux
-  - windows
-  - osx
-
 env:
   global:
-    - setup=stable
+    - SETUP=stable
 
 matrix:
   fast_finish: true
   include:
-    - php: 7.1
-    - php: 7.1
-      env: setup=lowest
-    - php: 7.2
-    - php: 7.2
-      env: setup=lowest
-    - php: 7.3
-    - php: 7.3
-      env: setup=lowest
+    - os: linux
+      dist: xenial
+      language: php
+      php: 7.1
+      services:
+        - memcached
+        - redis-server
+        - mysql
+    - os: linux
+      dist: xenial
+      language: php
+      php: 7.1
+      env: SETUP=lowest
+      services:
+        - memcached
+        - redis-server
+        - mysql
+    - os: linux
+      dist: xenial
+      language: php
+      php: 7.2
+      services:
+        - memcached
+        - redis-server
+        - mysql
+    - os: linux
+      dist: xenial
+      language: php
+      php: 7.2
+      env: SETUP=lowest
+      services:
+        - memcached
+        - redis-server
+        - mysql
+    - os: linux
+      dist: xenial
+      language: php
+      php: 7.3
+      services:
+        - memcached
+        - redis-server
+        - mysql
+    - os: linux
+      dist: xenial
+      language: php
+      php: 7.3
+      env: SETUP=lowest
+      services:
+        - memcached
+        - redis-server
+        - mysql
+
+    - os: osx
+      language: php
+      php: 7.1
+    - os: osx
+      language: php
+      php: 7.1
+      env: SETUP=lowest
+    - os: osx
+      language: php
+      php: 7.2
+    - os: osx
+      language: php
+      php: 7.2
+      env: SETUP=lowest
+    - os: osx
+      language: php
+      php: 7.3
+    - os: osx
+      language: php
+      php: 7.3
+      env: SETUP=lowest
+
+    - os: windows
+      env: PHP_VERSION=7.1
+    - os: windows
+      env:
+        - PHP_VERSION=7.1
+        - SETUP=lowest
+    - os: windows
+      env: PHP_VERSION=7.2
+    - os: windows
+      env:
+        - PHP_VERSION=7.2
+        - SETUP=lowest
+    - os: windows
+      env: PHP_VERSION=7.3
+    - os: windows
+      env:
+        - PHP_VERSION=7.3
+        - SETUP=lowest
 
 cache:
   directories:
     - $HOME/.composer/cache
 
-services:
-  - memcached
-  - redis-server
-  - mysql
-
 before_install:
+  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then choco install php --version $PHP_VERSION; fi
   - phpenv config-rm xdebug.ini || true
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - printf "\n" | pecl install -f redis
@@ -40,7 +111,7 @@ before_install:
   - mysql -e 'CREATE DATABASE forge;'
 
 install:
-  - if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
-  - if [[ $setup = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
+  - if [[ $SETUP = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
+  - if [[ $SETUP = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
 
 script: vendor/bin/phpunit
