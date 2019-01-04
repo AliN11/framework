@@ -127,6 +127,7 @@ before_install:
   - if [[ $TRAVIS_OS_NAME != 'windows' ]]; then printf "\n" | pecl install -f redis; fi
   - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then cd /bin && wget https://raw.githubusercontent.com/composer/getcomposer.org/d3e09029468023aa4e9dcd165e9b6f43df0a9999/web/installer -O - -q | php -- --quiet; fi
   - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then cd /bin && echo @php "%~dp0composer.phar" %*>composer.bat; fi
+    - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then export PATH=/c/bin:$PATH; fi
   - travis_retry composer self-update
   - mysql -e 'CREATE DATABASE forge;'
 
