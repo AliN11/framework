@@ -1,6 +1,11 @@
 dist: xenial
 language: php
 
+os:
+  - linux
+  - windows
+  - osx
+
 env:
   global:
     - setup=stable
