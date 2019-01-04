@@ -128,7 +128,7 @@ before_install:
   - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then wget https://raw.githubusercontent.com/composer/getcomposer.org/d3e09029468023aa4e9dcd165e9b6f43df0a9999/web/installer -O - -q | php --; fi
 #  - if [[ $TRAVIS_OS_NAME = 'windows' ]]; then echo @php "%~dp0composer.phar" %*>composer.bat && mv composer.bat /c/bin/composer.bat; fi
   - travis_retry php composer.phar self-update
-  - mysql -e 'CREATE DATABASE forge;'
+#  - mysql -e 'CREATE DATABASE forge;'
 
 install:
   - if [[ $SETUP = 'stable' ]]; then travis_retry php composer.phar update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
